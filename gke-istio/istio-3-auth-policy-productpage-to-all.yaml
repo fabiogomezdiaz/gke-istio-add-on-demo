@@ -1,0 +1,55 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: pci-3-allow-productpage-to-details
+ namespace: default
+spec:
+ selector:
+   matchLabels:
+     app: details
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/bookinfo-productpage"]
+   to:
+   - operation:
+       methods: ["*"]
+       ports: ["9080"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: pci-3-allow-productpage-to-reviews
+ namespace: default
+spec:
+ selector:
+   matchLabels:
+     app: reviews
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/bookinfo-productpage"]
+   to:
+   - operation:
+       methods: ["*"]
+       ports: ["9080"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: pci-3-allow-reviews-to-ratings
+ namespace: default
+spec:
+ selector:
+   matchLabels:
+     app: ratings
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/bookinfo-reviews"]
+   to:
+   - operation:
+       methods: ["*"]
+       ports: ["9080"]

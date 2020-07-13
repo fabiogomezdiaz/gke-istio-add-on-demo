@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: pci-2-allow-istio-ingress-to-productpage-to-all
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: productpage
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    # Allow connections from ingress gateway pod in istio-system namespace
+    #- namespaceSelector:
+    #    matchLabels:
+    #      k8s-app: istio
+    #  podSelector:
+    #    matchLabels:
+    #      app: istio-ingressgateway
+    - podSelector:
+        matchLabels:
+          app: details
+    - podSelector:
+        matchLabels:
+          app: reviews
+    ports:
+    - protocol: TCP
+      port: 9080
+  egress:
+  - to:
+    # Allow connections from ingress gateway pod in istio-system namespace
+    #- namespaceSelector:
+    #    matchLabels:
+    #      k8s-app: istio
+    #  podSelector:
+    #    matchLabels:
+    #      app: istio-ingressgateway
+    - podSelector:
+        matchLabels:
+          app: details
+    - podSelector:
+        matchLabels:
+          app: reviews
+    ports:
+    - protocol: TCP
+      port: 9080

@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: pci-1-deny-all-ingress-and-egress-except-istio
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          namespace: istio-system
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          namespace: kube-system
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          namespace: istio-system
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          namespace: kube-system
