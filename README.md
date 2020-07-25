@@ -128,7 +128,7 @@ Open the BookInfo URL and refresh the page multiple times so that you can genera
 To view, the application logs, open the [Logs Viewer](https://console.cloud.google.com/logs/query) and enter the following queries to view the logs for the `productpage` microservice:
 
 ```java
-resource.labels.project_id="jccb-ariba-gke" AND
+resource.labels.project_id="gke-istio-demo" AND
 resource.labels.cluster_name="istio-cluster-1" AND
 resource.type="k8s_container" AND
 resource.labels.namespace_name="default" AND
